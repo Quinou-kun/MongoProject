@@ -1,9 +1,11 @@
 const User = require('./models/User');
-const Ad = require('./models/Ad');
 const Event = require('./models/Event');
+const Velib = require('./models/Velib');
+const axios = require('axios');
+const parser = require('xml2json');
 
 const verification = User.find().where('email', 'john.doe@gmail.com').exec((err, docs) => {
-  if (docs.length === 0){
+  if (docs.length === 0) {
     const user = new User({
       email: 'john.doe@gmail.com',
       password: 'test',
@@ -17,64 +19,60 @@ const verification = User.find().where('email', 'john.doe@gmail.com').exec((err,
     });
     user.save();
 
-    const event = new Event({
+    axios.get('http://www.velostanlib.fr/service/carto').then((response) => {
+      const json = JSON.parse(parser.toJson(response.data));
+      const marker = json.carto.markers.marker;
+      for (const m in marker) {
+        axios.get(`http://www.velostanlib.fr/service/stationdetails/nancy/${marker[m].number}`).then((response) => {
+          const json2 = JSON.parse(parser.toJson(response.data));
+          const station = json2.station;
+          const velib = new Velib({
+            name: marker[m].name,
+            number: marker[m].number,
+            address: marker[m].fullAddress,
+            lat: marker[m].lat,
+            lng: marker[m].lng,
+            open: marker[m].open,
+            details: {
+              available: station.available,
+              free: station.free,
+              total: station.total,
+              updated: station.updated,
+            }
+          });
+          velib.save();
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    const event1 = new Event({
       title: 'Concert de David Pujadas',
       description: 'Venez voir le concert en live de David Pujadas feat Johnny !',
-      lat : 48.667848,
-      lng : 6.154584,
-      date : new Date(),
+      lat: 48.667848,
+      lng: 6.154584,
+      date: new Date(),
     });
-    event.save();
-
-
-    const ad1 = new Ad({
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id porta libero, vel venenatis massa. Suspendisse euismod dui a malesuada lacinia. Cras ac eros sit amet mi convallis laoreet sed at ex. Aliquam aliquet sed quam bibendum convallis. Nunc aliquet, nunc non maximus pharetra, velit eros porta lectus, id lobortis purus nisl a sem. Suspendisse scelerisque in orci id hendrerit. Aenean sit amet auctor orci. Etiam vitae auctor nisl. Ut sapien sapien, pharetra vitae risus in, convallis vulputate orci. Morbi a magna ullamcorper elit facilisis convallis. Maecenas eget imperdiet sapien. Nunc id ligula vel urna accumsan dictum in sed ante. Proin fermentum ullamcorper quam, non eleifend nisi facilisis vitae.',
-      title: 'Brown Timberland size 45',
-      shoes: {
-        brand: 'Timberland',
-        location: '2B Boulevard Charlemagne, Nancy, France',
-        gender: 'Other',
-        price: 14,
-        size: 45,
-        picture: '31588585779baff6d638b'
-      },
-      user: user._id,
-      reserved: false
+    event1.save();
+    const event2 = new Event({
+      title: 'Présentation de Christophe Bertrand',
+      description: 'Christophe vous présente sa derniere création : MON GROS TROU',
+      lat: 48.696451,
+      lng: 6.179737,
+      date: new Date(),
     });
-    ad1.save();
-
-
-    const ad2 = new Ad({
-      description: 'Cras ac eros sit amet mi convallis laoreet sed at ex. Aliquam aliquet sed quam bibendum convallis. Nunc aliquet, nunc non maximus pharetra, velit eros porta lectus, id lobortis purus nisl a sem. Suspendisse scelerisque in orci id hendrerit. Aenean sit amet auctor orci. Etiam vitae auctor nisl. Ut sapien sapien, pharetra vitae risus in, convallis vulputate orci. Morbi a magna ullamcorper elit facilisis convallis. Maecenas eget imperdiet sapien. Nunc id ligula vel urna accumsan dictum in sed ante. Proin fermentum ullamcorper quam, non eleifend nisi facilisis vitae.',
-      title: 'Black Pataugas size 47',
-      shoes: {
-        brand: 'Pataugas',
-        location: 'Central Park, New York, NY, USA',
-        gender: 'male',
-        price: 22,
-        size: 47,
-        picture: '381daf1c3379c77b6e15638b3531bdd4'
-      },
-      user: user._id,
-      reserved: false
+    event2.save();
+    const event3 = new Event({
+      title: 'Exposition sur Dali',
+      description: 'Exposition sur la vie de Dali et ses oeuvres majeures',
+      lat: 48.683023,
+      lng: 6.161112,
+      date: new Date(),
     });
-    ad2.save();
-
-    const ad3 = new Ad({
-      description: 'Morbi a magna ullamcorper elit facilisis convallis. Maecenas eget imperdiet sapien. Nunc id ligula vel urna accumsan dictum in sed ante. Proin fermentum ullamcorper quam, non eleifend nisi facilisis vitae.',
-      title: 'Red Doc Martens size 38 for womens',
-      shoes: {
-        brand: 'Doc Martens',
-        location: 'Central Park, New York, NY, USA',
-        gender: 'female',
-        price: 16,
-        size: 38,
-        picture: '280d2208f0308hdod9797'
-      },
-      user: user._id,
-      reserved: true
-    });
-    ad3.save();
+    event3.save();
   }
 });
 
