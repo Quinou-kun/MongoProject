@@ -1,6 +1,7 @@
 const User = require('./models/User');
 const Event = require('./models/Event');
 const Velib = require('./models/Velib');
+const Parking = require('./models/Parking');
 const axios = require('axios');
 const parser = require('xml2json');
 
@@ -18,6 +19,31 @@ const verification = User.find().where('email', 'john.doe@gmail.com').exec((err,
       }
     });
     user.save();
+
+    axios.get('https://geoservices.grand-nancy.org/arcgis/rest/services/public/' +
+        'VOIRIE_Parking/MapServer/0/query?where=1%3D1&text=&objectIds=&time=&geometry=' +
+        '&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relation' +
+        'Param=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4326&' +
+        'returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics' +
+        '=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson').then((response) => {
+      for (const park in response.data.features) {
+        const attributes = response.data.features[park].attributes;
+        const geometry = response.data.features[park].geometry;
+        const parking = new Parking({
+          name: attributes.NOM,
+          address: attributes.ADRESSE,
+          lat: geometry.x,
+          lng: geometry.y,
+          details: {
+            free: attributes.PLACES,
+            total: attributes.CAPACITE,
+            updated: attributes.DATE_MAJ
+          }
+        });
+        parking.save();
+      }
+    });
+
 
     axios.get('http://www.velostanlib.fr/service/carto').then((response) => {
       const json = JSON.parse(parser.toJson(response.data));
@@ -73,6 +99,22 @@ const verification = User.find().where('email', 'john.doe@gmail.com').exec((err,
       date: new Date(),
     });
     event3.save();
+    const event4 = new Event({
+      title: 'Ta maman en maillot de bain !',
+      description: 'Exposition des photos de ta maman en maillot de bain !',
+      lat: 48.660,
+      lng: 6.25,
+      date: new Date(),
+    });
+    event4.save();
+    const event5 = new Event({
+      title: 'Portes ouvertes chez Papie',
+      description: 'Vous pourrez découvrir la maison de Papie !',
+      lat: 48.69,
+      lng: 6.20,
+      date: new Date(),
+    });
+    event5.save();
   }
 });
 
