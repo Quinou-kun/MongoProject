@@ -18,10 +18,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-const multer = require('multer');
-const upload = multer({
-  dest: 'public/uploads/' // this saves your file into a directory called "uploads"
-});
+
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -30,14 +27,15 @@ dotenv.load({ path: '.env.example' });
 /**
  * Controllers (route handlers).
  */
-const mapController = require('./controllers/map');
+
+const parkingController = require('./controllers/parking.js');
+const velibsController = require('./controllers/velibs.js');
+const construct = require('./construct.js');
 const eventController = require('./controllers/event');
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
-
 /**
  * Create Express server.
  */
@@ -47,7 +45,20 @@ const app = express();
  * Connect to MongoDB.
  */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+
+
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI).then(() => {
+  construct.refreshDatas();
+  construct.createEvent();
+});
+
+
+setInterval(() => {
+  parkingController.viderParking();
+  velibsController.viderVelibs();
+  construct.refreshDatas();
+}, 300000);
+
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -96,11 +107,6 @@ app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-
-/**
- * populate database
- */
-require('./construct');
 
 /**
  * Primary app routes.
