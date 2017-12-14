@@ -112,7 +112,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 
-app.get('/', eventController.getAll);
+app.get('/', eventController.fetch);
 
 /**
  * Error Handler.
