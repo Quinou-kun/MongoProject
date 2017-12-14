@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+
+  if parkings.length == 0
+    p There's no events in our database at the moment
+  else
+    each parking in parkings
+      p #{parking}
+
+  //
+  //  div#map-canvas
+  //  div#infos
