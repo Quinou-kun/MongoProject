@@ -2,20 +2,33 @@ let map;
 let marker;
 const markers = [];
 const markersVelib = [];
+const markersEvent = [];
+const markersParking = [];
 let infoWindow;
 const geocoder = new google.maps.Geocoder();
 const events = eventPug;
 const velibs = velibPug;
 const parkings = parkingPug;
-console.log(events[0].title);
-console.log(velibs[0].name);
-console.log(velibs[0].lat);
+console.log(parkings);
+var controlUI;
+
+function openNav() {
+      if(menu == 0){
+       document.getElementById('mySidenav').style.width = '200px';
+       menu = 1;
+       controlUI.style.backgroundColor = '#F0F8FF';
+      }else{
+       document.getElementById('mySidenav').style.width = '0px';
+       menu = 0; 
+       controlUI.style.backgroundColor = '#fff';
+      }
+}
 
 
 function CenterControl(controlDiv, map) {
 
         // Set CSS for the control border.
-        var controlUI = document.createElement('div');
+        controlUI = document.createElement('div');
         controlUI.style.backgroundColor = '#fff';
         controlUI.style.border = '2px solid #fff';
         controlUI.style.borderRadius = '3px';
@@ -36,12 +49,10 @@ function CenterControl(controlDiv, map) {
         controlText.style.lineHeight = '38px';
         controlText.style.paddingLeft = '5px';
         controlText.style.paddingRight = '5px';
-        controlText.innerHTML = 'Menu';
+        controlText.innerHTML = '<div class="btntext">Menu</div>';
         controlUI.appendChild(controlText);
 
-        // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
-//          map.setCenter(chicago);
 			openNav()
         });
 
@@ -56,6 +67,20 @@ function removeVelibs(){
     }else{
 		for(let i in markersVelib){
 			markersVelib[i].setMap(map);
+		}
+	}
+
+}
+
+function removeParkings(){
+	let chk_ceil= document.getElementById("park");       
+    if(chk_ceil.checked == true){
+		for(let i in markersParking){
+			markersParking[i].setMap(null);
+		}
+    }else{
+		for(let i in markersEvent){
+			markersParking[i].setMap(map);
 		}
 	}
 
@@ -132,8 +157,28 @@ function initialize() {
 					markersVelib.push(marker);
 				}
 				
-				for(let evt in events){}
-				for(let park in parkings){}
+				for(let evt in events){
+					var infowindow = new google.maps.InfoWindow();
+					var html = '<h1>'+events[evt].title+'</h1> <p> info </p>'
+					marker = new google.maps.Marker({
+						map: map,
+						position: {lat: events[evt].lat, lng: events[evt].lng},
+						title: events[evt].title
+					});
+					bindInfoWindow(marker, map, infowindow, html);
+					markersEvent.push(marker);
+				}
+				for(let park in parkings){
+					var infowindow = new google.maps.InfoWindow();
+					var html = '<h1>'+parkings[park].title+'</h1> <p> info </p>'
+					marker = new google.maps.Marker({
+						map: map,
+						position: {lat: parkings[park].lat, lng: parkings[park].lng},
+						title: parkings[park].title
+					});
+					bindInfoWindow(marker, map, infowindow, html);
+					markersParking.push(marker);
+				}
 			};
 		}
 	});

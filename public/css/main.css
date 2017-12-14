@@ -48,7 +48,7 @@ body {
   /* Stay in place */
   z-index: 1;
   /* Stay on top */
-  top: 0;
+  top: 10vh;
   /* Stay at the top */
   left: 0;
   background-color: #fff;
@@ -63,10 +63,22 @@ body {
 .sidenav label {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
   color: #818181;
   display: block;
-  transition: 0.3s; }
+  transition: 0.3s;
+  overflow: hidden; }
 
-.sidenav label:hover {
-  color: #f1f1f1; }
+label input {
+  display: inline; }
+
+input {
+  display: inline; }
+
+.btntext {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }

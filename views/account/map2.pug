@@ -6,29 +6,21 @@ block content
       option(value=event.title)
 
     div#mySidenav(class='sidenav')
-      label(onclick='closeNav()')
-       input(type='checkbox' name='Transport' value='Transport')
-       X
+     div#text
       label
-       input#vlib(type='checkbox' name='Bus' onclick='removeVelibs()')
+       input#vlib(type='checkbox' onclick='removeVelibs()')
+       .
+        Vélibs
       label
-       input(type='checkbox' name='Velo' value='Velo')
+       input#park(type='checkbox' onclick='removeParkings()')
       label
-       input(type='checkbox' name='Parking' value='Parking')
+       input(type='checkbox')
 
-    input#pac-input(class='controls' onclick='openNav()' type='text' placeholder='Rechercher un évènemenet...' list='noms')
+    input#pac-input(class='controls' type='text' placeholder='Rechercher un évènement...' list='noms')
     div#map-canvas
 
     script.
      var eventPug = !{JSON.stringify(events)};
      var velibPug = !{JSON.stringify(velibs)};
      var parkingPug = !{JSON.stringify(parkings)};
-
-     function openNav() {
-      document.getElementById('mySidenav').style.width = '200px';
-     }
-
-     function closeNav() {
-      document.getElementById('mySidenav').style.width = '0px';
-     } 
-	 
+     var menu = 0;
