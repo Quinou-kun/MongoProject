@@ -1,6 +1,6 @@
-const Parking = require('../models/Parking.js')
+const Velib = require('../models/Velib.js')
 
 
 exports.viderVelibs= (req, res) => {
-  Parking.remove({}, () => {});
+  Velib.remove({}, () => {});
 };

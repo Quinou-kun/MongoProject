@@ -31,7 +31,8 @@ dotenv.load({ path: '.env.example' });
 const parkingController = require('./controllers/parking.js');
 const velibsController = require('./controllers/velibs.js');
 const construct = require('./construct.js');
-const eventController = require('./controllers/event');
+const eventController = require('./controllers/event.js');
+const mapController = require('./controllers/map.js');
 
 /**
  * API keys and Passport configuration.
@@ -113,6 +114,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 
 app.get('/', eventController.getAll);
+app.get('/map', mapController.getAll);
 
 /**
  * Error Handler.

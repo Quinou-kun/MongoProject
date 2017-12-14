@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+    datalist#noms
+     each event in events
+      option(value=event.title)
+
+    div#mySidenav(class='sidenav')
+      label(onclick='closeNav()')
+       input(type='checkbox' name='Transport' value='Transport')
+       X
+      label
+       input#vlib(type='checkbox' name='Bus' onclick='removeVelibs()')
+      label
+       input(type='checkbox' name='Velo' value='Velo')
+      label
+       input(type='checkbox' name='Parking' value='Parking')
+
+    input#pac-input(class='controls' onclick='openNav()' type='text' placeholder='Rechercher un évènemenet...' list='noms')
+    div#map-canvas
+
+    script.
+     var eventPug = !{JSON.stringify(events)};
+     var velibPug = !{JSON.stringify(velibs)};
+     var parkingPug = !{JSON.stringify(parkings)};
+
+     function openNav() {
+      document.getElementById('mySidenav').style.width = '200px';
+     }
+
+     function closeNav() {
+      document.getElementById('mySidenav').style.width = '0px';
+     } 
+	 
