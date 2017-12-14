@@ -28,10 +28,10 @@ dotenv.load({ path: '.env.example' });
  * Controllers (route handlers).
  */
 
-const parkingController = require('./controllers/parking.js');
-const velibsController = require('./controllers/velibs.js');
-const construct = require('./construct.js');
+const parkingController = require('./controllers/parking');
+const velibsController = require('./controllers/velib');
 const eventController = require('./controllers/event');
+const construct = require('./construct.js');
 
 /**
  * API keys and Passport configuration.
@@ -48,15 +48,19 @@ mongoose.Promise = global.Promise;
 
 
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI).then(() => {
+  parkingController.dropParking();
+  velibsController.dropVelibs();
+  eventController.dropEvents();
   construct.refreshDatas();
   construct.createEvent();
 });
 
 
 setInterval(() => {
-  parkingController.viderParking();
-  velibsController.viderVelibs();
+  parkingController.dropParking();
+  velibsController.dropVelibs();
   construct.refreshDatas();
+  console.log(`REFRESH DATABASE : ${new Date()}`);
 }, 300000);
 
 mongoose.connection.on('error', (err) => {
@@ -111,6 +115,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
+
 
 app.get('/', eventController.fetch);
 
