@@ -116,9 +116,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 
-const renderController = require('./controllers/render.js');
 
-app.get('/',renderController.getAll);
+app.get('/', eventController.fetch);
 
 /**
  * Error Handler.

@@ -6,12 +6,12 @@ exports.dropParking = (req, res) => {
 };
 
 exports.getAll = () => Parking.find();
-
-exports.fetch = (req, res) => {
-  Parking.find((err, docs) => {
-    res.send(docs);
-  });
-};
+//
+// exports.fetch = (req, res) => {
+//   Parking.find((err, docs) => {
+//     res.send(docs);
+//   });
+// };
 
 exports.getAvailable = (req, res) => {
   Parking.find((err, docs) => {
