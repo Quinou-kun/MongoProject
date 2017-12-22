@@ -6,15 +6,8 @@ block content
       option(value=event.title)
 
     div#mySidenav(class='sidenav')
-     div#text
-      label
-       input#vlib(type='checkbox' onclick='removeVelibs()')
-       .
-        Vélibs
-      label
-       input#park(type='checkbox' onclick='removeParkings()')
-      label
-       input(type='checkbox')
+       a#vlib(class='unclicked' onclick='removeVelibs()') Vélibs
+       a#prking(class='unclicked' onclick='removeParkings()') Parkings
 
     input#pac-input(class='controls' type='text' placeholder='Rechercher un évènement...' list='noms')
     div#map-canvas
