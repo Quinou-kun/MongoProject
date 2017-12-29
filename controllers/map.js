@@ -5,7 +5,7 @@ const Velib = require('../models/Velib.js')
 
 
 exports.map = (req, res) => {
-    res.render('account/map', {title : 'map'});
+  res.render('account/map', { title: 'map' });
 };
 
 exports.getAll = (req, res) => {
@@ -18,8 +18,9 @@ exports.getAll = (req, res) => {
 		parkings = dacs;
 		   Velib.find((err, ducs) => {
 				velibs = ducs;
-				res.render('account/map2', {title : 'Map',"events": events,"velibs": velibs,"parkings": parkings});
+				res.render('account/map', {title : 'Map',"events": events,"velibs": velibs,"parkings": parkings});
 			});
 		});
     });	
 };
+

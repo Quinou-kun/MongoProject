@@ -87,3 +87,14 @@ body {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none; }
+
+.wrapper {
+  border: 1px solid #000;
+  display: inline-block;
+  position: relative; }
+
+button {
+  position: absolute;
+  top: 25px;
+  left: 340px;
+  z-index: 99; }

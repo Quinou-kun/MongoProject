@@ -1,20 +1,21 @@
 extends ../layout
 
 block content
-  if events.length == 0
-    p There's no shoes in our database at the moment
-  else
-    each event in events
-      p #{event.title}
-      p #{event.description}
-      p #{event.date}
-    p #{velibs}
+    datalist#noms
+     each event in events
+      option(value=event.title)
 
+    div#mySidenav(class='sidenav')
+       a#vlib(class='unclicked' onclick='removeVelibs()') Vélibs
+       a#prking(class='unclicked' onclick='removeParkings()') Parkings
+
+    input#pac-input(class='controls' type='text' placeholder='Rechercher un évènement...' list='noms')
+    button(onclick='search()') Go!
 
     div#map-canvas
-    div#infos
 
     script.
      var eventPug = !{JSON.stringify(events)};
      var velibPug = !{JSON.stringify(velibs)};
-     var parkingPug = !{JSON.stringify(parkings)};  
+     var parkingPug = !{JSON.stringify(parkings)};
+     var menu = 0;
