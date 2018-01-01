@@ -1,206 +1,81 @@
-@import "themes/default/variables";
-
-@import "lib/bootstrap/bootstrap";
-@import "lib/font-awesome/font-awesome";
-
-@import "themes/default/default";
-
-@import "cards.css";
-@import "tmp.css";
-
-// Scaffolding
-// -------------------------
-
-html {
-  position: relative;
-  min-height: 100%;
+html { height: 100% }
+body { height: 100%; margin: 0px; padding: 0px }
+#container { width: 100%; height: 100%;position: relative;}
+#map-canvas { width: 100%; height: 100vh; }
+#pac-input { position: absolute; top: 10px; left: 10px; z-index: 99; 
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 80px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;}
+		
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 10vh; /* Stay at the top */
+    left: 0;
+    background-color: #fff; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
-body {
-  padding-top: 60px;
-  margin-bottom: 75px;
+.clicked {
+	color: #818181;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 45px;
-  line-height: 45px;
-
-  p, ul {
-    margin-bottom: 0;
-  }
+.unclicked{
+	color: black;
 }
 
-// Input Fields
-// -------------------------
-
-textarea {
-  resize: vertical;
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    transition: 0.3s;
+    overflow:hidden;
 }
 
-// Navbar
-// -------------------------
-
-
-.navbar-nav img {
-  width: 30px;
-  height: 30px;
-  margin: -15px 15px -15px;
+.sidenav a:hover {
+    color: #818181;
 }
 
-
-// Alerts
-// -------------------------
-
-.alert {
-  margin-top: 20px;
+.sidenav a.clicked:hover {
+    color: black;
 }
 
-// Thumbnails
-// -------------------------
-
-.thumbnail {
-  padding: 0;
-  border-radius: 0;
-  box-shadow: 0 0 5px #ccc, inset 0 0 0 #000;
+.btntext{
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  -o-user-select:none;
+  user-select:none;
 }
 
-// Font Icons
-// -------------------------
-
-.fa {
-  margin-right: 6px;
+.wrapper {
+    border:1px solid #000;
+    display:inline-block;
+    position:relative;
 }
 
-// MAP
-#map-canvas {
-   margin: 0;
-   padding: 0;
-   height: 60vh;
-}
-#map-canvas img {
-   max-width: none !important;
-}
-a:hover{
-
-color : darken(orange,10);
-
-}
-
-#testdiv{
-  display : none;
-}
-
-.btn{
-  background-color : orange;
-  border-color : green;
-  color : white;
-}
-
-.btn:hover{
-  text-decoration: none;
-  color : white;
-  background-color : darken(orange, 10);
-}
-
-a {
-  color : orange;
-}
-
-.myad{
-  width : 100%;
-  display : inline;
-}
-
-.ad-info h3,.ad-info h4,p,a{
-  margin : 0 10px 0 10px;
-  padding : 5px
-}
-
-.ad-info-header{
-  margin-top : 4%;
-  border: 2px solid rgba(0, 0, 0, 0.125);
-
-  display : flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.100);
-
-}
-
-.ad-info-header-price{
-  padding-bottom: 9px;
-  margin: 40px 10px 20px;
-}
-
-.ad-info-owner{
-  padding : 2% 0;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  background-color: rgba(0, 0, 0, 0.05);;
-}
-
-
-.ad-info-content{
-
-  padding : 2% 0;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  flex-direction: column;
-  background-color: white;
-}
-
-.ad-info-content-description{
-  padding : 2% 0;
-}
-.ad-info-content-img{
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  height : 300px;
-  width : 35%;
-  float: left;
-  text-align: center;
-  margin:1%;
-  line-height: 300px;
-}
-
-.ad-info-content-img img{
-  padding : auto;
-  max-width : 100%;
-  max-height : 100%;
-}
-
-.ad-info-content #map-canvas{
-  margin : 1%;
-  height: 300px;
-  width : 61%;
-  float: right;
-}
-
-.ad-info-footer{
-  padding : 2% 0;
-  background-color: rgba(0,0,0,0.03);
-}
-
-nav {
-  text-align : center;
-}
-
-
-.reserved{
-  color : red;
-}
-.available{
-  color : green;
-}
-
-.collapse-img{
-  width : 100%;
-  height : 250px;
-  text-align : center;
-}
-
-.collapse-img img {
-  max-width : 100%;
-  max-height : 100%;
+button {
+	position: absolute; top: 25px; left: 340px; z-index: 99;
 }
 

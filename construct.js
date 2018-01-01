@@ -18,8 +18,8 @@ exports.refreshDatas = () => {
       const parking = new Parking({
         name: attributes.NOM,
         address: attributes.ADRESSE,
-        lat: geometry.x,
-        lng: geometry.y,
+        lat: geometry.y,
+        lng: geometry.x,
         details: {
           free: attributes.PLACES,
           total: attributes.CAPACITE,

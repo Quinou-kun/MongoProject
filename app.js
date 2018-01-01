@@ -32,6 +32,7 @@ const parkingController = require('./controllers/parking');
 const velibsController = require('./controllers/velib');
 const eventController = require('./controllers/event');
 const construct = require('./construct.js');
+const mapController = require('./controllers/map.js');
 
 /**
  * API keys and Passport configuration.
@@ -116,8 +117,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 
-
-app.get('/', eventController.fetch);
+app.get('/', mapController.getAll);
+//app.get('/map', mapController.getAll);
 
 /**
  * Error Handler.

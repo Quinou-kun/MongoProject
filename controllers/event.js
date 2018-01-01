@@ -14,11 +14,13 @@ exports.getAll = (req, res) => {
 };
 exports.fetch = (req, res) => {
   Parking.find((err, docsParkings) => {
+   Event.find((err, docs) => {
     Velib.find((err, docsVelibs) => {
       res.render('account/map', {
         parkings: docsParkings,
         velibs: docsVelibs
       });
     });
+   });
   });
 };
