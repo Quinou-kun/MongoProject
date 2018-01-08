@@ -25,9 +25,12 @@ node app.js
 
 ```
 Go to localhost:8080
-Go to the search bar
-Choose an event
 Choose transports with the menu bar
+Go to the search bar
+Type "p"
+Click on an event
+Click on the event icon
+CLick on "Comment m'y rendre"
 Enjoy !
 ```
 
