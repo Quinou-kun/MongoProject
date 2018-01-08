@@ -40,7 +40,7 @@ Enjoy !
 This project was created in accordance to one of our university projects.
 * [Luc ANDRÉ](https://github.com/lucandreiut)
 * [Quentin DELAMARRE](https://github.com/windos757)
-* [Quentin DELAMARRE](https://github.com/windos757)
+* [Quentin RENOUARD](https://github.com/quinou-kun)
 
 License
 -------
