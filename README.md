@@ -24,6 +24,7 @@ node app.js
 # Testing
 
 ```
+Go to localhost:8080
 Go to the search bar
 Choose an event
 Choose transports with the menu bar
@@ -46,4 +47,4 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2017, Wood N' Shoes
+Copyright (c) 2017, MongoProject
