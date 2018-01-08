@@ -1,5 +1,5 @@
-# Wood N' Shoes
-Easy way to rent shoes near you to go to cut trees.
+# MONGOPROJECT
+Easy way to see near events and how to go to
 
 ## Getting Started
 
@@ -20,20 +20,31 @@ npm install
 node app.js
 ```
 
+
+# Testing
+
+```
+Go to localhost:8080
+Go to the search bar
+Choose an event
+Choose transports with the menu bar
+Enjoy !
+```
+
 ## Built With
 
-* [sahat/hackathon-starter](https://github.com/sahat/hackathon-starter) - The NodeJs boilerplate
-* [Bootstrap ](https://getbootstrap.com) - The CSS framework 
+* [sahat/hackathon-starter](https://github.com/sahat/hackathon-starter) - The NodeJs boilerplate=
 
 # Creators
 
 This project was created in accordance to one of our university projects.
-* [Quentin RENOUARD ](https://github.com/Quinou-kun)
+* [Luc ANDRÉ](https://github.com/lucandreiut)
 * [Quentin DELAMARRE](https://github.com/windos757)
+* [Quentin RENOUARD](https://github.com/quinou-kun)
 
 License
 -------
 
 The MIT License (MIT)
 
-Copyright (c) 2017, Wood N' Shoes
+Copyright (c) 2017, MongoProject

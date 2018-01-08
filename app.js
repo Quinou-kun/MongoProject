@@ -18,10 +18,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-const multer = require('multer');
-const upload = multer({
-  dest: 'public/uploads/' // this saves your file into a directory called "uploads"
-});
+
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -30,14 +27,16 @@ dotenv.load({ path: '.env.example' });
 /**
  * Controllers (route handlers).
  */
-const mapController = require('./controllers/map');
+
+const parkingController = require('./controllers/parking');
+const velibsController = require('./controllers/velib');
 const eventController = require('./controllers/event');
+const construct = require('./construct.js');
+const mapController = require('./controllers/map.js');
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
-
 /**
  * Create Express server.
  */
@@ -47,7 +46,24 @@ const app = express();
  * Connect to MongoDB.
  */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+
+
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI).then(() => {
+  parkingController.dropParking();
+  velibsController.dropVelibs();
+  eventController.dropEvents();
+  construct.refreshDatas();
+  construct.createEvent();
+});
+
+
+setInterval(() => {
+  parkingController.dropParking();
+  velibsController.dropVelibs();
+  construct.refreshDatas();
+  console.log(`REFRESH DATABASE : ${new Date()}`);
+}, 300000);
+
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -98,15 +114,11 @@ app.use(lusca.xssProtection(true));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
- * populate database
- */
-require('./construct');
-
-/**
  * Primary app routes.
  */
 
-app.get('/', eventController.getAll);
+app.get('/', mapController.getAll);
+//app.get('/map', mapController.getAll);
 
 /**
  * Error Handler.

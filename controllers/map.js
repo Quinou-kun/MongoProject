@@ -1,22 +1,26 @@
-const Ad = require('../models/Ad');
+const Event = require('../models/Event');
+const Parking = require('../models/Parking.js')
+const Velib = require('../models/Velib.js')
+
 
 
 exports.map = (req, res) => {
-    res.render('account/map', {title : 'map'});
+  res.render('account/map', { title: 'map' });
 };
 
 exports.getAll = (req, res) => {
-   Ad.find((err, docs) => {
-      res.render('account/map', {title : 'Map',"ads": docs});
-    }).sort({'createdAt': -1});
+	let events;
+	let velibs;
+	let parkings;
+   Event.find((err, docs) => {
+	events = docs;
+	Parking.find((err, dacs) => {
+		parkings = dacs;
+		   Velib.find((err, ducs) => {
+				velibs = ducs;
+				res.render('account/map', {title : 'Map',"events": events,"velibs": velibs,"parkings": parkings});
+			});
+		});
+    });	
 };
 
-
-// const Event = require('../models/Event');
-//
-//
-// exports.getAll = (req, res) => {
-//   Event.find((err, docs) => {
-//     res.render('account/map', {title : 'Map',"events": docs});
-//   });
-// };
